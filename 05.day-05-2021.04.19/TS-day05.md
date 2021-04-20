@@ -186,3 +186,75 @@ jumao.run()
  */
 ```
 ## 泛型
+
+### 泛型-为什么需要泛型
+
+> 需求:定义一个创建数组的方法,可以创建出指定长度的数组,并且可以用指定内容填充这个数组
+
+> 语法:
+
+> > let 类名 = <T>(形参: 定型,形参: 定型...): 返回值定型 => return .....
+> > T 是一个占位符,代表将来要指定的类型 
+```ts
+/**
+ * * 普通写法
+ */
+let getArray = (length: number, value: number | string): any => {
+  return new Array(length).fill(value)
+}
+
+let arr: string[] = getArray(5,"aaa");
+let aaa = arr.map(item => item.length);
+console.log(aaa);
+
+/**
+ * * 泛型写法
+ */
+let getArray2 = <T>(length: number, value: T): T[] => {
+  return new Array(length).fill(value)
+}
+let arr2 = getArray2<string>(5,"abc");
+let res2 = arr2.map(item => item.length)
+console.log(res2)
+
+/**
+ * ! 泛型是语序同一个函数接收不同类型参数的一种模板,在编写代码的时候,我们既要考虑代码的健壮性,也要考虑灵活性和可重用性
+ * ! 通过TS的静态检测能让我们编写的代码更加健壮,但是在变得健壮的同时却丢失了灵活性和可重用性
+ * ! 通过泛型不仅可以让我们的代码更加健壮,还能让我们的代码在变得健壮的同时保持灵活性和可重用性
+ */
+```
+
+### 泛型-泛型约束
+
+> 默认情况下我们可以指定泛型为任意类型,但是有些情况下我们需要自定的满足某些条件后才能指定,那么这个时候我们就可以使用泛型约束
+> 语法:
+> > <T extends length 接口>
+```ts
+interface lengthInterface {
+  length: number
+}
+let getArr = <T extends lengthInterface>(length: number, value: T): T[] => {
+  return new Array(length).fill(value)
+} 
+
+let arr3 = getArr<number>(5, 5); // 因为传进去的元素是数字,而在创建的时候遍历元素是数字的话是没有办法使用length属性的
+```
+
+### 泛型-在泛型中使用类型参数
+
+- 一个泛型被另一个泛型所约束,就叫泛型约束中使用类型参数
+> 语法: 
+> > <T, K extends keyof T>(参数: T, 形参: K) =>{}
+```ts
+// 需求: 定义一个函数用于根据只当的key获取value
+
+let getValue = <T, K extends keyof T>(obj: T, key: K) => {
+  return obj[key]
+}
+
+let obj = {
+  a:"b",
+  b: "B"
+}
+console.log(getValue(onj,"a"))
+```
