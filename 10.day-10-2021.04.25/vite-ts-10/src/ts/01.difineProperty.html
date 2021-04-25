@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let obj3 = { name: 'ls' };
+    Object.defineProperty(obj3, 'age', {
+      set(num) {
+        console.log("设置了值")
+        value = num
+      },
+      get() {
+        console.log("获取了值")
+        return value;
+      }
+    })
+    obj3.age = 3;
+    console.log(obj3);
+    console.log(obj3.age);
+  </script>
+</body>
+
+</html>
