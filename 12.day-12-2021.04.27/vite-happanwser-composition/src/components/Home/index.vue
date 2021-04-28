@@ -15,11 +15,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
+import { computed, defineComponent } from 'vue'
+import {useStore} from "vuex"
+import {key} from "../../store/index"
 export default defineComponent({
   setup() {
-    
+    const store = useStore(key);
+    const level = computed(() => store.state.level)
+    // 调用vuex的action中的方法获取数据
+    store.dispatch("getData")
+    return {
+      level
+    }
   },
 })
 </script>
