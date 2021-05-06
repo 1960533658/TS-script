@@ -10,13 +10,26 @@
         v-model="taskname"
         @keyup.enter="handleAdd"
       />
-      <p>共有个{{taskList.length}}目标，已完成{{taskList.length-unFinish}}个，还有{{unFinish}}条未完成</p>
+      <p>
+        共有个{{ taskList.length }}目标，已完成{{
+          taskList.length - unFinish
+        }}个，还有{{ unFinish }}条未完成
+      </p>
     </div>
     <ul>
-      <li class="li1" v-for="(item, index) in taskList" :key="item.id" :data-index="index">
-        <div >
-          <span class="status-span" :class="{'status-end':item.status}" @click="handleChange(item.id)"></span>
-          <span>{{item.name}}</span>
+      <li
+        class="li1"
+        v-for="(item, index) in taskList"
+        :key="item.id"
+        :data-index="index"
+      >
+        <div>
+          <span
+            class="status-span"
+            :class="{ 'status-end': item.status }"
+            @click="handleChange(item.id)"
+          ></span>
+          <span>{{ item.name }}</span>
           <span class="close" @click="handleDel(item.id)">X</span>
         </div>
         <input type="text" class="text2" />
@@ -26,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import {  computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, reactive, ref } from "vue";
 
 export default defineComponent({
   name: "App",
@@ -44,41 +57,43 @@ export default defineComponent({
       { id: 3, name: "我今天要去吃土", status: false },
     ]);
 
-    const taskname = ref<string>("")
+    const taskname = ref<string>("");
 
     const handleAdd = () => {
       console.log(taskname.value);
-      
-      if(taskname.value.trim().length == 0) return alert("任务名称不能为空")
+
+      if (taskname.value.trim().length == 0) return alert("任务名称不能为空");
       const task: taskType = {
         id: taskList.length,
         name: taskname.value,
         status: false,
-      }
+      };
 
       taskname.value = "";
-      taskList.push(task)
-    }
-    const unFinish = computed(() => taskList.filter(item => !item.status) .length)
+      taskList.push(task);
+    };
+    const unFinish = computed(
+      () => taskList.filter((item) => !item.status).length
+    );
 
     const handleDel = (id) => {
-      const index = taskList.findIndex(item => item.id == id)
+      const index = taskList.findIndex((item) => item.id == id);
       console.log(index);
-      taskList.splice(index,1)
-    }
+      taskList.splice(index, 1);
+    };
 
     const handleChange = (id) => {
-      const index = taskList.findIndex(item => item.id == id)
-      taskList[index].status = !taskList[index].status
-    }
+      const index = taskList.findIndex((item) => item.id == id);
+      taskList[index].status = !taskList[index].status;
+    };
     return {
       taskname,
       taskList,
       handleAdd,
       unFinish,
       handleDel,
-      handleChange
-    }
+      handleChange,
+    };
   },
 });
 </script>
